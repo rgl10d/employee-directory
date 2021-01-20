@@ -1,8 +1,11 @@
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Directory from "./containers/Directory/Directory";
+
 function App() {
   return (
-    <div>
-      <h1>Hello World!</h1>
-    </div>
+    <Router>
+      <Route exact path="/" component={Directory} />
+    </Router>
   );
 }
 
