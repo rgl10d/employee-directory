@@ -4,15 +4,22 @@ import EmployeeCard from "../../components/EmployeeCard/EmployeeCard";
 import Wrapper from "../../components/Wrapper/Wrapper";
 
 class Directory extends Component {
+  state = {
+    employeeName: "",
+  };
+
   componentDidMount() {
     this.generateEmployees();
-  }
+  };
 
   generateEmployees = () => {
     axios
-      .get("https://randomuser.me/api/")
+      .get("https://randomuser.me/api/?results=30")
       .then((response) => {
         console.log(response.data.results);
+        this.setState({
+            employeeName: `${response.data.results[0].name.first}`
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -23,7 +30,7 @@ class Directory extends Component {
     return (
       <div className="container">
         <Wrapper>
-          <EmployeeCard />
+          <EmployeeCard name={this.state.employeeName} />
           <EmployeeCard />
         </Wrapper>
       </div>
