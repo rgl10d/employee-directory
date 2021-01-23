@@ -9,7 +9,7 @@ const EmployeeRow = (props) => {
           <td>{props.name} {props.lastname}</td>
           <td>{props.username}</td>
           <td>{props.email}</td>
-          <td>{props.city} {props.state}</td>
+          <td>{props.city}, {props.state}</td>
         </tr>
     );
 };

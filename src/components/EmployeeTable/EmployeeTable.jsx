@@ -5,11 +5,8 @@ import EmployeeRow from "../EmployeeRow/EmployeeRow";
 class EmployeeTable extends Component {
   state = {
     results: [],
-    employeeName: [],
-    username: [],
-    email: [],
-    picture: [],
-    location: [],
+    sortedEmployees: [],
+    filteredEmployees: [],
   };
 
   componentDidMount() {
@@ -23,42 +20,58 @@ class EmployeeTable extends Component {
         console.log(response.data.results);
         this.setState({
           results: response.data.results,
-        })
-        console.log(this.state.employeeName);
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  render() {
+  sortNames = () => {
+    console.log("clicked!");
+    const sorted = [].concat(this.state.results);
+    sorted.sort((a, b) => (a.name.first > b.name.first ? 1 : -1));
+    this.setState({
+      results: sorted,
+    });
+    console.log(sorted);
+  };
 
-    const employees = this.state.results.map(employees=>{
-      return(
-        <EmployeeRow
-        name={employees.name.first}
-        lastname = {employees.name.last}
-        username={employees.login.username}
-        email={employees.email}
-        picture={employees.picture.thumbnail}
-        city={employees.location.city}
-        state={employees.location.state}
-      />
-      )
-    })
+  render() {
     return (
       <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th scope="col"></th>
-            <th scope="col">Name</th>
+            <th scope="col">
+              Name{" "}
+              <i
+                className="fa fa-fw fa-sort"
+                onClick={() => {
+                  this.sortNames();
+                }}
+              />
+            </th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col">Location</th>
           </tr>
         </thead>
         <tbody>
-          {employees}
+          {this.state.results.map((employees, index) => {
+            return (
+              <EmployeeRow
+                key={index}
+                name={employees.name.first}
+                lastname={employees.name.last}
+                username={employees.login.username}
+                email={employees.email}
+                picture={employees.picture.thumbnail}
+                city={employees.location.city}
+                state={employees.location.state}
+              />
+            );
+          })}
         </tbody>
       </table>
     );
