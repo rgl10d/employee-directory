@@ -4,10 +4,12 @@ import EmployeeRow from "../EmployeeRow/EmployeeRow";
 
 class EmployeeTable extends Component {
   state = {
-    employeeName: "",
-    phone: "",
-    email: "",
-    picture: "",
+    results: [],
+    employeeName: [],
+    username: [],
+    email: [],
+    picture: [],
+    location: [],
   };
 
   componentDidMount() {
@@ -20,12 +22,9 @@ class EmployeeTable extends Component {
       .then((response) => {
         console.log(response.data.results);
         this.setState({
-          employeeName: `${response.data.results[0].name.first} ${response.data.results[0].name.last}`,
-          username: `${response.data.results[0].login.username}`,
-          email: `${response.data.results[0].email}`,
-          picture: `${response.data.results[0].picture.thumbnail}`,
-          location: `${response.data.results[0].location.city}, ${response.data.results[0].location.state}`,
-        });
+          results: response.data.results,
+        })
+        console.log(this.state.employeeName);
       })
       .catch((err) => {
         console.log(err);
@@ -33,6 +32,20 @@ class EmployeeTable extends Component {
   };
 
   render() {
+
+    const employees = this.state.results.map(employees=>{
+      return(
+        <EmployeeRow
+        name={employees.name.first}
+        lastname = {employees.name.last}
+        username={employees.login.username}
+        email={employees.email}
+        picture={employees.picture.thumbnail}
+        city={employees.location.city}
+        state={employees.location.state}
+      />
+      )
+    })
     return (
       <table className="table table-striped table-hover">
         <thead>
@@ -45,19 +58,7 @@ class EmployeeTable extends Component {
           </tr>
         </thead>
         <tbody>
-          <EmployeeRow
-            name={this.state.employeeName}
-            username={this.state.username}
-            email={this.state.email}
-            picture={this.state.picture}
-            location={this.state.location}
-          />
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
+          {employees}
         </tbody>
       </table>
     );

@@ -6,10 +6,10 @@ const EmployeeRow = (props) => {
           <th scope="row">
               <img src={props.picture} alt={props.name}/>
           </th>
-          <td>{props.name}</td>
+          <td>{props.name} {props.lastname}</td>
           <td>{props.username}</td>
           <td>{props.email}</td>
-          <td>{props.location}</td>
+          <td>{props.city} {props.state}</td>
         </tr>
     );
 };
