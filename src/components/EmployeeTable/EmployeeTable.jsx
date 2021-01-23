@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 import EmployeeRow from "../EmployeeRow/EmployeeRow";
 
+let sortCheck = false;
+
 class EmployeeTable extends Component {
   state = {
     results: [],
-    sortedEmployees: [],
     filteredEmployees: [],
   };
 
@@ -28,13 +29,18 @@ class EmployeeTable extends Component {
   };
 
   sortNames = () => {
-    console.log("clicked!");
-    const sorted = [].concat(this.state.results);
-    sorted.sort((a, b) => (a.name.first > b.name.first ? 1 : -1));
+    const sortedArray = [].concat(this.state.results);
+    if(!sortCheck){
+      sortedArray.sort((a, b) => (a.name.first > b.name.first ? 1 : -1));
+      sortCheck = true;
+    } else if (sortCheck) {
+      sortedArray.sort((a, b) => (a.name.first < b.name.first ? 1 : -1));
+      sortCheck = false;
+    }
     this.setState({
-      results: sorted,
+      results: sortedArray,
     });
-    console.log(sorted);
+    console.log(sortedArray);
   };
 
   render() {
