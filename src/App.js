@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import Directory from "./containers/Directory/Directory";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/">
       <Route exact path="/" component={Directory} />
     </Router>
   );
