@@ -7,7 +7,7 @@ let sortCheck = false;
 class EmployeeTable extends Component {
   state = {
     results: [],
-    filtered: [],
+    rendered: [],
     search: "",
   };
 
@@ -22,6 +22,7 @@ class EmployeeTable extends Component {
         console.log(response.data.results);
         this.setState({
           results: response.data.results,
+          unfiltered: response.data.results
         });
       })
       .catch((err) => {
@@ -46,7 +47,14 @@ class EmployeeTable extends Component {
   searchInput = (event) => {
     let keyword = event.target.value;
     this.setState({ search: keyword });
-    console.log(this.state.search);
+    console.log(keyword);
+    const filtered = this.state.results.filter((user) => {
+      return user.login.username.includes(keyword);
+    });
+    if(keyword === ""){
+      this.setState({results: this.state.unfiltered})
+    } else {
+    this.setState({results: filtered})}
   };
 
   render() {
@@ -55,6 +63,7 @@ class EmployeeTable extends Component {
         <input
           type="text"
           placeholder="Search Username"
+          value={this.state.keyword}
           style={{ marginBottom: 20 }}
           onChange={(e) => this.searchInput(e)}
         />
